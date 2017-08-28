@@ -1,4 +1,4 @@
-package com.joaquinalan.courseracontacts.adapters;
+package com.joaquinalan.courseracontacts.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,23 +12,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joaquinalan.courseracontacts.R;
-import com.joaquinalan.courseracontacts.activities.ContactDetailActivity;
+import com.joaquinalan.courseracontacts.activity.ContactDetailActivity;
 import com.joaquinalan.courseracontacts.data.ContactConstructor;
 import com.joaquinalan.courseracontacts.pojo.Contact;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by joaquinalan on 26/01/2017.
  */
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
-    private ArrayList<Contact> mContacts;
+    private List<Contact> mContacts;
     private Activity mActivity;
+    private ContactAdapterListener mContactAdapterListener;
 
-    public ContactAdapter(ArrayList<Contact> contacts, Activity activity) {
+    public ContactAdapter(List<Contact> contacts, ContactAdapterListener contactAdapterListener, Activity activity) {
         this.mContacts = contacts;
         this.mActivity = activity;
+        this.mContactAdapterListener = contactAdapterListener;
     }
 
     // It inflates layout and passes viewHolder to get the views
@@ -48,31 +50,16 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         holder.mTextViewName.setText(mContact.getName());
         holder.mTextViewPhone.setText(mContact.getPhone());
         holder.mTextViewNumberOfLikes.setText(String.valueOf(mContact.getNumberOfLikes()));
-
-    /*    holder.mImageViewImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, mContact.getName(), Snackbar.LENGTH_SHORT).show();
-                Intent intent = new Intent(mActivity, ContactDetailActivity.class);
-                intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactname), mContact.getName());
-                intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactphone), mContact.getPhone());
-                intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactemail), mContact.getEmail());
-                mActivity.startActivity(intent);
-            }
-        });
-
-        holder.mButtonThumbUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, mActivity.getString(R.string.contactcardview_thumbupmessage)
-                        + mContact.getName(), Snackbar.LENGTH_SHORT).show();
-            }
-        });*/
     }
 
     @Override
     public int getItemCount() { // Number of elements that my List has.
         return mContacts.size();
+    }
+
+    public interface ContactAdapterListener {
+        void onContactCardViewClicked(Contact contact);
+        void onThumbUpClicked(Contact contact);
     }
 
     public class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -97,23 +84,25 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         @Override
         public void onClick(View view) {
             int contactPosition = getAdapterPosition();
-            final Contact mContact = mContacts.get(contactPosition);
+            final Contact contact = mContacts.get(contactPosition);
             switch (view.getId()) {
                 case R.id.imageview_contactcardview_image:
-                    Snackbar.make(view, mContact.getName(), Snackbar.LENGTH_SHORT).show();
-                    Intent intent = new Intent(mActivity, ContactDetailActivity.class);
-                    intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactname), mContact.getName());
-                    intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactphone), mContact.getPhone());
-                    intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactemail), mContact.getEmail());
-                    mActivity.startActivity(intent);
+//                    Snackbar.make(view, contact.getName(), Snackbar.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(mActivity, ContactDetailActivity.class);
+//                    intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactname), contact.getName());
+//                    intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactphone), contact.getPhone());
+//                    intent.putExtra(mActivity.getString(R.string.contactadapter_extracontactemail), contact.getEmail());
+//                    mActivity.startActivity(intent);
+                    mContactAdapterListener.onContactCardViewClicked(contact);
                     break;
                 case R.id.button_contactcardview_thumbup:
-                    Snackbar.make(view, mActivity.getString(R.string.contactcardview_thumbupmessage)
-                            + mContact.getName(), Snackbar.LENGTH_SHORT).show();
-                    ContactConstructor contactConstructor = new ContactConstructor(mActivity);
-                    contactConstructor.likeContact(mContact);
-                    int numberLikes = contactConstructor.getContactLikes(mContact);
-                    mTextViewNumberOfLikes.setText(String.valueOf(numberLikes));
+//                    Snackbar.make(view, mActivity.getString(R.string.contactcardview_thumbupmessage)
+//                            + contact.getName(), Snackbar.LENGTH_SHORT).show();
+//                    ContactConstructor contactConstructor = new ContactConstructor(mActivity);
+//                    contactConstructor.likeContact(contact);
+//                    int numberLikes = contactConstructor.getContactLikes(contact);
+//                    mTextViewNumberOfLikes.setText(String.valueOf(numberLikes));
+                    mContactAdapterListener.onThumbUpClicked(contact);
                     break;
             }
         }

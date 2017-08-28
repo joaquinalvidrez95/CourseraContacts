@@ -1,4 +1,4 @@
-package com.joaquinalan.courseracontacts.fragments;
+package com.joaquinalan.courseracontacts.fragment;
 
 
 import android.os.Bundle;

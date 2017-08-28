@@ -1,19 +1,19 @@
-package com.joaquinalan.courseracontacts.adapters;
+package com.joaquinalan.courseracontacts.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by joaquinalan on 29/01/2017.
  */
 
 public class PageAdapter extends FragmentPagerAdapter {
-    private ArrayList<Fragment> mFragmentArrayList;
+    private List<Fragment> mFragmentArrayList;
 
-    public PageAdapter(FragmentManager fm, ArrayList<Fragment> fragmentArrayList) {
+    public PageAdapter(FragmentManager fm, List<Fragment> fragmentArrayList) {
         super(fm);
         mFragmentArrayList = fragmentArrayList;
     }

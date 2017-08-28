@@ -1,26 +1,26 @@
-package com.joaquinalan.courseracontacts.presenters;
+package com.joaquinalan.courseracontacts.presenter;
 
 import android.content.Context;
 
-import com.joaquinalan.courseracontacts.adapters.ContactAdapter;
+import com.joaquinalan.courseracontacts.adapter.ContactAdapter;
 import com.joaquinalan.courseracontacts.data.ContactConstructor;
-import com.joaquinalan.courseracontacts.fragments.RecyclerViewFragmentViewable;
+import com.joaquinalan.courseracontacts.fragment.RecyclerViewFragmentView;
 import com.joaquinalan.courseracontacts.pojo.Contact;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by joaquinalan on 04/02/2017.
  */
 
-public class RecyclerViewFragmentPresenter implements RecyclerViewFragmentPresentable {
-    private RecyclerViewFragmentViewable mViewable;
+public class RecyclerViewFragmentPresenter implements RecyclerViewFragmentListener {
+    private RecyclerViewFragmentView mViewable;
     private Context mContext;
     private ContactConstructor mContactConstructor;
-    private ArrayList<Contact> mContacts;
+    private List<Contact> mContacts;
 
-    public RecyclerViewFragmentPresenter(RecyclerViewFragmentViewable recyclerViewFragmentViewable, Context context) {
-        mViewable = recyclerViewFragmentViewable;
+    public RecyclerViewFragmentPresenter(RecyclerViewFragmentView recyclerViewFragmentView, Context context) {
+        mViewable = recyclerViewFragmentView;
         mContext = context;
         initiateContacts();
     }
@@ -37,5 +37,10 @@ public class RecyclerViewFragmentPresenter implements RecyclerViewFragmentPresen
         ContactAdapter adapter = mViewable.getAdapter(mContacts);
         mViewable.initiateRecyclerViewAdapter(adapter);
         mViewable.createVerticalLinearLayout();
+    }
+
+    @Override
+    public void onContactCardViewClicked(Contact contact) {
+        mViewable.startContactDetailActivicty(contact);
     }
 }

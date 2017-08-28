@@ -1,4 +1,4 @@
-package com.joaquinalan.courseracontacts.activities;
+package com.joaquinalan.courseracontacts.activity;
 
 import android.Manifest;
 import android.content.Intent;
